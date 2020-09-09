@@ -164,13 +164,6 @@ void setup()
     {
       dns[i] = EEPROM.read(i + 66);
     }
-    digitalWrite(LED_BUILTIN, HIGH);
-    delay(1000);
-    digitalWrite(LED_BUILTIN, LOW);
-    delay(1000);
-    digitalWrite(LED_BUILTIN, HIGH);
-    delay(1000);
-    digitalWrite(LED_BUILTIN, LOW);
   } else {
     EEPROMWriteStr(variavelCFGpos, "BMB_ipconf");
   }
@@ -433,19 +426,6 @@ void loop()
 
           if (HttpHeaderCFG[0] == 66 && HttpHeaderCFG[1] == 77 && HttpHeaderCFG[2] == 66 && HttpHeaderCFG[3] == 95 && HttpHeaderCFG[4] == 105 && HttpHeaderCFG[5] == 112 && HttpHeaderCFG[6] == 99 && HttpHeaderCFG[7] == 111 && HttpHeaderCFG[8] == 110 && HttpHeaderCFG[9] == 102)
           {
-            digitalWrite(LED_BUILTIN, HIGH);
-            delay(500);
-            digitalWrite(LED_BUILTIN, LOW);
-            delay(500);
-            digitalWrite(LED_BUILTIN, HIGH);
-            delay(500);
-            digitalWrite(LED_BUILTIN, LOW);
-            delay(1000);
-            digitalWrite(LED_BUILTIN, HIGH);
-            delay(1000);
-            digitalWrite(LED_BUILTIN, LOW);
-            delay(1000);
-            digitalWrite(LED_BUILTIN, HIGH);
             EEPROM.write(51, HttpHeaderIP1byte);
             EEPROM.write(52, HttpHeaderIP2byte);
             EEPROM.write(53, HttpHeaderIP3byte);
@@ -465,7 +445,6 @@ void loop()
             EEPROM.write(67, HttpHeaderDN2byte);
             EEPROM.write(68, HttpHeaderDN3byte);
             EEPROM.write(69, HttpHeaderDN4byte);
-            HttpHeader = "";
             HttpHeaderCFG = "";
             resetFunc();
           };
