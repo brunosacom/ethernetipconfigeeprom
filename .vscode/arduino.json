@@ -1,7 +1,0 @@
-{
-    "programmer": "AVR ISP",
-    "board": "arduino:avr:mega",
-    "port": "COM20",
-    "sketch": "ethernetconfigeeprom_bruno03git.ino",
-    "configuration": "cpu=atmega2560"
-}
