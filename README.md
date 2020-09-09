@@ -1,6 +1,6 @@
 # Arduino Ethernet IP Config EEPROM
 ### (ethernetipconfigeeprom)
-##### Configurações de IP para o Arduino com interface WEB e gravação de dados na EEPROM
+#### Configurações de IP para o Arduino com interface WEB e gravação de dados na EEPROM
 
 Este sketch exibe uma página WEB para configuração dos dados de IP, subnet mask, gateway e dns para o Arduino.
 
