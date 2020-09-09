@@ -97,6 +97,7 @@ EthernetServer server(80); //web server port
 
 String HttpHeader = String(MaxHeaderLength);
 
+//BMB declare HTTP string variables from form
 String HttpHeaderCFG;
 
 String HttpHeaderIP1;
@@ -119,6 +120,7 @@ String HttpHeaderDN2;
 String HttpHeaderDN3;
 String HttpHeaderDN4;
 
+//BMB declare HTTP byte variables to write in EEPROM
 byte HttpHeaderCFGbyte;
 
 byte HttpHeaderIP1byte;
@@ -141,6 +143,7 @@ byte HttpHeaderDN2byte;
 byte HttpHeaderDN3byte;
 byte HttpHeaderDN4byte;
 
+//BMB function HTTP GET byte from form
 byte HttpHeaderValue(String fieldA, String fieldB)
 {
   String HttpHeaderVAL;
@@ -152,6 +155,7 @@ byte HttpHeaderValue(String fieldA, String fieldB)
   return HttpHeaderVALbyte;
 };
 
+//BMB repeating HTML codes 
 String divRow = "<div class='form-row my-2'><div class='col-md-3 col-xs-12 text-nowrap'>";
 String divClassInput0 = "<div class='col-2'><input class='form-control form-control-sm' type='number' size='3' max='255' name='";
 String divClassInput1 = "' value='";
@@ -160,8 +164,6 @@ String divClassInput2 = "'></div>.";
 void setup()
 {
   variavelCFG = EEPROMReadStr(variavelCFGpos);
-
-  pinMode(LED_BUILTIN, OUTPUT);
 
   //BMB check previous BMBIPCONFIG
   if (variavelCFG == "BMB_ipconf")
@@ -359,6 +361,7 @@ void loop()
           client.println("</div></body>");
           client.println("</html>");
 
+          //BMB checking previous IP config to overwrite
           if (HttpHeaderCFG[0] == 66 && HttpHeaderCFG[1] == 77 && HttpHeaderCFG[2] == 66 && HttpHeaderCFG[3] == 95 && HttpHeaderCFG[4] == 105 && HttpHeaderCFG[5] == 112 && HttpHeaderCFG[6] == 99 && HttpHeaderCFG[7] == 111 && HttpHeaderCFG[8] == 110 && HttpHeaderCFG[9] == 102)
           {
             EEPROM.write(51, HttpHeaderIP1byte);
