@@ -2,11 +2,8 @@
 #include <Ethernet.h>
 #include <EEPROM.h>
 
-<<<<<<< HEAD
 //no vscode
-=======
 //no github2
->>>>>>> 43b3b47bbed362fce089c532b101c126eed52dd3
 
 #define MaxHeaderLength 255 //maximum length of http header required
 
