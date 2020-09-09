@@ -2,6 +2,8 @@
 #include <Ethernet.h>
 #include <EEPROM.h>
 
+//no github
+
 #define MaxHeaderLength 255 //maximum length of http header required
 
 #define espacoEEPROM 4096 //1024 bytes (1Kb) on the ATmega328P,
