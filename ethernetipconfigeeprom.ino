@@ -2,9 +2,6 @@
 #include <Ethernet.h>
 #include <EEPROM.h>
 
-//no vscode
-//no github2
-
 #define MaxHeaderLength 255 //maximum length of http header required
 
 #define espacoEEPROM 4096 //1024 bytes (1Kb) on the ATmega328P,
@@ -51,6 +48,9 @@ String EEPROMReadStr(int address)
 
   return readStr;
 }
+
+
+
 
 //BMB IPconfig presence variables
 int variavelCFGpos = 1;
@@ -139,6 +139,22 @@ byte HttpHeaderDN2byte;
 byte HttpHeaderDN3byte;
 byte HttpHeaderDN4byte;
 
+byte HttpHeaderValue(String fieldA, String fieldB)
+{
+  String HttpHeaderVAL;
+  byte HttpHeaderVALbyte;
+  HttpHeaderVAL = HttpHeader;
+  HttpHeaderVAL.remove(HttpHeader.indexOf(fieldA) - 1, HttpHeader.length() - HttpHeader.indexOf(fieldA));
+  HttpHeaderVAL.remove(0, HttpHeader.indexOf(fieldB) + 3);
+  HttpHeaderVALbyte = HttpHeaderVAL.toInt();
+  return HttpHeaderVALbyte;
+};
+
+String divRow = "<div class='form-row my-2'><div class='col-md-3 col-xs-12 text-nowrap'>";
+String divClassInput0 = "<div class='col-2'><input class='form-control form-control-sm' type='number' size='3' max='255' name='";
+String divClassInput1 = "' value='";
+String divClassInput2 = "'></div>.";
+
 void setup()
 {
   variavelCFG = EEPROMReadStr(variavelCFGpos);
@@ -172,9 +188,6 @@ void setup()
   //start Ethernet
   Ethernet.begin(mac, ip, dns, gateway, subnet);
 
-  //enable serial monitor
-  Serial.begin(9600);
-
   //initialize variable
   HttpHeader = "";
 }
@@ -207,142 +220,25 @@ void loop()
           HttpHeaderCFG.remove(0, HttpHeader.indexOf("CF=") + 3);
           HttpHeaderCFGbyte = HttpHeaderCFG[0];
 
-          HttpHeaderIP1 = HttpHeader;
-          HttpHeaderIP1.remove(HttpHeader.indexOf("I2=") - 1, HttpHeader.length() - HttpHeader.indexOf("I2="));
-          HttpHeaderIP1.remove(0, HttpHeader.indexOf("I1=") + 3);
-          HttpHeaderIP1byte = HttpHeaderIP1.toInt();
+          HttpHeaderIP1byte = HttpHeaderValue("I2=", "I1=");
+          HttpHeaderIP2byte = HttpHeaderValue("I3=", "I2=");
+          HttpHeaderIP3byte = HttpHeaderValue("I4=", "I3=");
+          HttpHeaderIP4byte = HttpHeaderValue("S1=", "I4=");
 
-          HttpHeaderIP2 = HttpHeader;
-          HttpHeaderIP2.remove(HttpHeader.indexOf("I3=") - 1, HttpHeader.length() - HttpHeader.indexOf("I3="));
-          HttpHeaderIP2.remove(0, HttpHeader.indexOf("I2=") + 3);
-          HttpHeaderIP2byte = HttpHeaderIP2.toInt();
+          HttpHeaderSB1byte = HttpHeaderValue("S2=", "S1=");
+          HttpHeaderSB2byte = HttpHeaderValue("S3=", "S2=");
+          HttpHeaderSB3byte = HttpHeaderValue("S4=", "S3=");
+          HttpHeaderSB4byte = HttpHeaderValue("G1=", "S4=");
 
-          HttpHeaderIP3 = HttpHeader;
-          HttpHeaderIP3.remove(HttpHeader.indexOf("I4=") - 1, HttpHeader.length() - HttpHeader.indexOf("I4="));
-          HttpHeaderIP3.remove(0, HttpHeader.indexOf("I3=") + 3);
-          HttpHeaderIP3byte = HttpHeaderIP3.toInt();
+          HttpHeaderGW1byte = HttpHeaderValue("G2=", "G1=");
+          HttpHeaderGW2byte = HttpHeaderValue("G3=", "G2=");
+          HttpHeaderGW3byte = HttpHeaderValue("G4=", "G3=");
+          HttpHeaderGW4byte = HttpHeaderValue("D1=", "G4=");
 
-          HttpHeaderIP4 = HttpHeader;
-          HttpHeaderIP4.remove(HttpHeader.indexOf("S1=") - 1, HttpHeader.length() - HttpHeader.indexOf("S1="));
-          HttpHeaderIP4.remove(0, HttpHeader.indexOf("I4=") + 3);
-          HttpHeaderIP4byte = HttpHeaderIP4.toInt();
-
-          HttpHeaderSB1 = HttpHeader;
-          HttpHeaderSB1.remove(HttpHeader.indexOf("S2=") - 1, HttpHeader.length() - HttpHeader.indexOf("S2="));
-          HttpHeaderSB1.remove(0, HttpHeader.indexOf("S1=") + 3);
-          HttpHeaderSB1byte = HttpHeaderSB1.toInt();
-
-          HttpHeaderSB2 = HttpHeader;
-          HttpHeaderSB2.remove(HttpHeader.indexOf("S3=") - 1, HttpHeader.length() - HttpHeader.indexOf("S3="));
-          HttpHeaderSB2.remove(0, HttpHeader.indexOf("S2=") + 3);
-          HttpHeaderSB2byte = HttpHeaderSB2.toInt();
-
-          HttpHeaderSB3 = HttpHeader;
-          HttpHeaderSB3.remove(HttpHeader.indexOf("S4=") - 1, HttpHeader.length() - HttpHeader.indexOf("S4="));
-          HttpHeaderSB3.remove(0, HttpHeader.indexOf("S3=") + 3);
-          HttpHeaderSB3byte = HttpHeaderSB3.toInt();
-
-          HttpHeaderSB4 = HttpHeader;
-          HttpHeaderSB4.remove(HttpHeader.indexOf("G1=") - 1, HttpHeader.length() - HttpHeader.indexOf("G1="));
-          HttpHeaderSB4.remove(0, HttpHeader.indexOf("S4=") + 3);
-          HttpHeaderSB4byte = HttpHeaderSB4.toInt();
-
-          HttpHeaderGW1 = HttpHeader;
-          HttpHeaderGW1.remove(HttpHeader.indexOf("G2=") - 1, HttpHeader.length() - HttpHeader.indexOf("G2="));
-          HttpHeaderGW1.remove(0, HttpHeader.indexOf("G1=") + 3);
-          HttpHeaderGW1byte = HttpHeaderGW1.toInt();
-
-          HttpHeaderGW2 = HttpHeader;
-          HttpHeaderGW2.remove(HttpHeader.indexOf("G3=") - 1, HttpHeader.length() - HttpHeader.indexOf("G3="));
-          HttpHeaderGW2.remove(0, HttpHeader.indexOf("G2=") + 3);
-          HttpHeaderGW2byte = HttpHeaderGW2.toInt();
-
-          HttpHeaderGW3 = HttpHeader;
-          HttpHeaderGW3.remove(HttpHeader.indexOf("G4=") - 1, HttpHeader.length() - HttpHeader.indexOf("G4="));
-          HttpHeaderGW3.remove(0, HttpHeader.indexOf("G3=") + 3);
-          HttpHeaderGW3byte = HttpHeaderGW3.toInt();
-
-          HttpHeaderGW4 = HttpHeader;
-          HttpHeaderGW4.remove(HttpHeader.indexOf("D1=") - 1, HttpHeader.length() - HttpHeader.indexOf("D1="));
-          HttpHeaderGW4.remove(0, HttpHeader.indexOf("G4=") + 3);
-          HttpHeaderGW4byte = HttpHeaderGW4.toInt();
-
-          HttpHeaderDN1 = HttpHeader;
-          HttpHeaderDN1.remove(HttpHeader.indexOf("D2=") - 1, HttpHeader.length() - HttpHeader.indexOf("D2="));
-          HttpHeaderDN1.remove(0, HttpHeader.indexOf("D1=") + 3);
-          HttpHeaderDN1byte = HttpHeaderDN1.toInt();
-
-          HttpHeaderDN2 = HttpHeader;
-          HttpHeaderDN2.remove(HttpHeader.indexOf("D3=") - 1, HttpHeader.length() - HttpHeader.indexOf("D3="));
-          HttpHeaderDN2.remove(0, HttpHeader.indexOf("D2=") + 3);
-          HttpHeaderDN2byte = HttpHeaderDN2.toInt();
-
-          HttpHeaderDN3 = HttpHeader;
-          HttpHeaderDN3.remove(HttpHeader.indexOf("D4=") - 1, HttpHeader.length() - HttpHeader.indexOf("D4="));
-          HttpHeaderDN3.remove(0, HttpHeader.indexOf("D3=") + 3);
-          HttpHeaderDN3byte = HttpHeaderDN3.toInt();
-
-          HttpHeaderDN4 = HttpHeader;
-          HttpHeaderDN4.remove(HttpHeader.indexOf("HTT") - 1, HttpHeader.length() - HttpHeader.indexOf("HTT"));
-          HttpHeaderDN4.remove(0, HttpHeader.indexOf("D4=") + 3);
-          HttpHeaderDN4byte = HttpHeaderDN4.toInt();
-
-          Serial.print("Length: ");
-          Serial.println(HttpHeader.length());
-          Serial.print("HttpHeader: ");
-          Serial.println(HttpHeader);
-          Serial.print("IndexOf.IP1: ");
-          Serial.println(HttpHeader.indexOf("IP1="));
-          Serial.print("IndexOf.IP2: ");
-          Serial.println(HttpHeader.indexOf("IP2="));
-          Serial.print("IndexOf.IP3: ");
-          Serial.println(HttpHeader.indexOf("IP3="));
-          Serial.print("IndexOf.IP4: ");
-          Serial.println(HttpHeader.indexOf("IP4="));
-          Serial.print("IP1: " + HttpHeaderIP1);
-          Serial.print("IP2: " + HttpHeaderIP2);
-          Serial.print("IP3: " + HttpHeaderIP3);
-          Serial.print("IP4: " + HttpHeaderIP4);
-          Serial.print("HttpHeader[0]: ");
-          Serial.println(HttpHeader[0]);
-          Serial.print("EEProm[51]: ");
-          Serial.println(EEPROM.read(51));
-          Serial.print("EEProm[52]: ");
-          Serial.println(EEPROM.read(52));
-          Serial.print("EEProm[53]: ");
-          Serial.println(EEPROM.read(53));
-          Serial.print("EEProm[54]: ");
-          Serial.println(EEPROM.read(54));
-          Serial.print("D1: " + HttpHeaderDN1);
-          Serial.print("D2: " + HttpHeaderDN2);
-          Serial.print("D3: " + HttpHeaderDN3);
-          Serial.print("D4: " + HttpHeaderDN4);
-          Serial.print("D3byte: ");
-          Serial.println(HttpHeaderDN3byte);
-          Serial.print("D4byte: ");
-          Serial.println(HttpHeaderDN4byte);
-          Serial.print("IndexOf.D4: ");
-          Serial.println(HttpHeader.indexOf("D4="));
-          Serial.print("CFGbyte: ");
-          Serial.println(HttpHeaderCFGbyte);
-          Serial.print("EEProm[69]: ");
-          Serial.println(EEPROM.read(69));
-          Serial.print("ip[3]: ");
-          Serial.println(ip[3]);
-          Serial.print("variavelCFG: ");
-          Serial.println(variavelCFG);
-          Serial.println("0123456789");
-          Serial.print("HttpHeaderCFG: ");
-          Serial.println(HttpHeaderCFG);
-
-          if (HttpHeader[0] == 'A')
-          {
-            digitalWrite(LED_BUILTIN, HIGH);
-          }
-          if (HttpHeader[0] == 'a')
-          {
-            digitalWrite(LED_BUILTIN, LOW);
-          }
+          HttpHeaderDN1byte = HttpHeaderValue("D2=", "D1=");
+          HttpHeaderDN2byte = HttpHeaderValue("D3=", "D2=");
+          HttpHeaderDN3byte = HttpHeaderValue("D4=", "D3=");
+          HttpHeaderDN4byte = HttpHeaderValue("HTT", "D4=");
 
           // start of web page
           client.println("HTTP/1.1 200 OK");
@@ -369,55 +265,92 @@ void loop()
           client.println("</head>");
           client.println("<body style='font-family:Didact Gothic;'><div class='container'><h2><strong>IP Config Page</strong></h2>");
           client.println("<form><input type='hidden' name='CF' value='BMB_ipconf'>");
-          client.print("<div class='form-row my-2'><div class='col-md-3 col-xs-12 text-nowrap'>IP address: </div><div class='col-2'><input class='form-control form-control-sm' type='number' size='3' max='255' name='I1' value='");
+          client.print(divRow);
+          client.print("IP Address: </div>");
+          client.print(divClassInput0);
+          client.print("I1");
+          client.print(divClassInput1);
           client.print(ip[0]);
-          client.print("'></div>.");
-          client.print("<div class='col-2'><input class='form-control form-control-sm' type='number' size='3' max='255' name='I2' value='");
+          client.print(divClassInput2);
+          client.print(divClassInput0);
+          client.print("I2");
+          client.print(divClassInput1);
           client.print(ip[1]);
-          client.print("'></div>.");
-          client.print("<div class='col-2'><input class='form-control form-control-sm' type='number' size='3' max='255' name='I3' value='");
+          client.print(divClassInput2);
+          client.print(divClassInput0);
+          client.print("I3");
+          client.print(divClassInput1);
           client.print(ip[2]);
-          client.print("'></div>.");
-          client.print("<div class='col-2'><input class='form-control form-control-sm' type='number' size='3' max='255' name='I4' value='");
+          client.print(divClassInput2);
+          client.print(divClassInput0);
+          client.print("I4");
+          client.print(divClassInput1);
           client.print(ip[3]);
           client.println("'></div></div>");
-
-          client.print("<div class='form-row my-2'><div class='col-md-3 col-xs-12 text-nowrap'>Subnet Mask: </div><div class='col-2'><input class='form-control form-control-sm' type='number' size='3' max='255' name='S1' value='");
+          client.print(divRow);
+          client.print("Subnet Mask: </div>");
+          client.print(divClassInput0);
+          client.print("S1");
+          client.print(divClassInput1);
           client.print(subnet[0]);
-          client.print("'></div>.");
-          client.print("<div class='col-2'><input class='form-control form-control-sm' type='number' size='3' max='255' name='S2' value='");
+          client.print(divClassInput2);
+          client.print(divClassInput0);
+          client.print("S2");
+          client.print(divClassInput1);
           client.print(subnet[1]);
-          client.print("'></div>.");
-          client.print("<div class='col-2'><input class='form-control form-control-sm' type='number' size='3' max='255' name='S3' value='");
+          client.print(divClassInput2);
+          client.print(divClassInput0);
+          client.print("S3");
+          client.print(divClassInput1);
           client.print(subnet[2]);
-          client.print("'></div>.");
-          client.print("<div class='col-2'><input class='form-control form-control-sm' type='number' size='3' max='255' name='S4' value='");
+          client.print(divClassInput2);
+          client.print(divClassInput0);
+          client.print("S4");
+          client.print(divClassInput1);
           client.print(subnet[3]);
           client.println("'></div></div>");
-
-          client.print("<div class='form-row my-2'><div class='col-md-3 col-xs-12 text-nowrap'>Gateway: </div><div class='col-2'><input class='form-control form-control-sm' type='number' size='3' max='255' name='G1' value='");
+          client.print(divRow);
+          client.print("Gateway: </div>");
+          client.print(divClassInput0);
+          client.print("G1");
+          client.print(divClassInput1);
           client.print(gateway[0]);
-          client.print("'></div>.");
-          client.print("<div class='col-2'><input class='form-control form-control-sm' type='number' size='3' max='255' name='G2' value='");
+          client.print(divClassInput2);
+          client.print(divClassInput0);
+          client.print("G2");
+          client.print(divClassInput1);
           client.print(gateway[1]);
-          client.print("'></div>.");
-          client.print("<div class='col-2'><input class='form-control form-control-sm' type='number' size='3' max='255' name='G3' value='");
+          client.print(divClassInput2);
+          client.print(divClassInput0);
+          client.print("G3");
+          client.print(divClassInput1);
           client.print(gateway[2]);
-          client.print("'></div>.");
-          client.print("<div class='col-2'><input class='form-control form-control-sm' type='number' size='3' max='255' name='G4' value='");
+          client.print(divClassInput2);
+          client.print(divClassInput0);
+          client.print("G4");
+          client.print(divClassInput1);
           client.print(gateway[3]);
           client.println("'></div></div>");
-
-          client.print("<div class='form-row my-2'><div class='col-md-3 col-xs-12 text-nowrap'>DNS: </div><div class='col-2'><input class='form-control form-control-sm' type='number' size='3' max='255' name='D1' value='");
+          client.print(divRow);
+          client.print("DNS: </div>");
+          client.print(divClassInput0);
+          client.print("D1");
+          client.print(divClassInput1);
           client.print(dns[0]);
-          client.print("'></div>.");
-          client.print("<div class='col-2'><input class='form-control form-control-sm' type='number' size='3' max='255' name='D2' value='");
+          client.print(divClassInput2);
+          client.print(divClassInput0);
+          client.print("D2");
+          client.print(divClassInput1);
           client.print(dns[1]);
-          client.print("'></div>.");
-          client.print("<div class='col-2'><input class='form-control form-control-sm' type='number' size='3' max='255' name='D3' value='");
+          client.print(divClassInput2);
+          client.print(divClassInput0);
+          client.print("D3");
+          client.print(divClassInput1);
           client.print(dns[2]);
-          client.print("'></div>.");
-          client.print("<div class='col-2'><input class='form-control form-control-sm' type='number' size='3' max='255' name='D4' value='");
+          client.print(divClassInput2);
+          client.print(divClassInput0);
+          client.print("D4");
+          client.print(divClassInput1);
           client.print(dns[3]);
           client.println("'></div></div>");
           client.println("<div class='form-row my-2'><input class='btn btn-warning btn-sm' type='submit' value='submit'></div></form>");
