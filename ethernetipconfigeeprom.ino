@@ -1,4 +1,4 @@
-/* BMBS Bruno Sá - www.bruno-sa.com */
+/* BMBS - Bruno Sá - www.bruno-sa.com */
 
 #include <SPI.h>
 #include <Ethernet.h>
