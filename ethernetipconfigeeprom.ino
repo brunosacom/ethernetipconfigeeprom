@@ -1,4 +1,4 @@
-/* Bruno Sá - www.bruno-sa.com */
+/* BMBS Bruno Sá - www.bruno-sa.com */
 
 #include <SPI.h>
 #include <Ethernet.h>
@@ -13,14 +13,14 @@
 //reset function
 void (*resetFunc)(void) = 0; //declare reset function at address 0
 
-// function write string byte after byte in EEPROM (based on Flavio Guimarães' code)
-void EEPROMWriteStr(int address, String value)
+// function write string byte after byte in EEPROM
+void eepromWriteStr(int eepromBlock, String text)
 {
   int i;
 
-  for (i = 0; i < value.length(); i++)
+  for (i = 0; i < text.length(); i++)
   {
-    EEPROM.write(address + i, value.charAt(i));
+    EEPROM.write(eepromBlock + i, text.charAt(i));
 
     if (i >= 1000)
     {
@@ -30,23 +30,23 @@ void EEPROMWriteStr(int address, String value)
 
   if (i < 1000)
   {
-    EEPROM.write(address + i, (char)0);
+    EEPROM.write(eepromBlock + i, (char)0);
   }
 }
 
-// function read string byte after byte from EEPROM  (based on Flavio Guimarães' code)
-String EEPROMReadStr(int address)
+// function read string byte after byte from EEPROM
+String eepromReadStr(int eepromBlock)
 {
   String readStr = "";
   char readByte;
-  int readAddress = address;
+  int readEepromBlock = eepromBlock;
 
   do
   {
-    readByte = EEPROM.read(readAddress);
+    readByte = EEPROM.read(readEepromBlock);
     readStr += readByte;
-    readAddress++;
-  } while ((readByte != (char)0) && (readAddress < (address + 1000)));
+    readEepromBlock++;
+  } while ((readByte != (char)0) && (readEepromBlock < (eepromBlock + 1000)));
 
   return readStr;
 }
@@ -54,33 +54,33 @@ String EEPROMReadStr(int address)
 
 
 
-//BMB IPconfig presence variables
+//BMBS IPconfig presence variables
 int variavelCFGpos = 1;
 String variavelCFG = "";
 
-//BMB IP Address
-byte variavelIP1 = EEPROM.read(51); //Posicao 51 da EEPROM
-byte variavelIP2 = EEPROM.read(52); //Posicao 52 da EEPROM
-byte variavelIP3 = EEPROM.read(53); //Posicao 53 da EEPROM
-byte variavelIP4 = EEPROM.read(54); //Posicao 54 da EEPROM
+//BMBS IP Address from EEPROM
+byte variavelIP1 = EEPROM.read(51);
+byte variavelIP2 = EEPROM.read(52);
+byte variavelIP3 = EEPROM.read(53);
+byte variavelIP4 = EEPROM.read(54);
 
-//BMB Subnet Mask
-byte variavelSB1 = EEPROM.read(56); //Posicao 56 da EEPROM
-byte variavelSB2 = EEPROM.read(57); //Posicao 57 da EEPROM
-byte variavelSB3 = EEPROM.read(58); //Posicao 58 da EEPROM
-byte variavelSB4 = EEPROM.read(59); //Posicao 59 da EEPROM
+//BMBS Subnet Mask from EEPROM
+byte variavelSB1 = EEPROM.read(56);
+byte variavelSB2 = EEPROM.read(57);
+byte variavelSB3 = EEPROM.read(58);
+byte variavelSB4 = EEPROM.read(59);
 
-//BMB Gateway
-byte variavelGW1 = EEPROM.read(61); //Posicao 61 da EEPROM
-byte variavelGW2 = EEPROM.read(62); //Posicao 62 da EEPROM
-byte variavelGW3 = EEPROM.read(63); //Posicao 63 da EEPROM
-byte variavelGW4 = EEPROM.read(64); //Posicao 64 da EEPROM
+//BMBS Gateway from EEPROM
+byte variavelGW1 = EEPROM.read(61);
+byte variavelGW2 = EEPROM.read(62);
+byte variavelGW3 = EEPROM.read(63);
+byte variavelGW4 = EEPROM.read(64);
 
-//BMB DNS
-byte variavelDN1 = EEPROM.read(66); //Posicao 66 da EEPROM
-byte variavelDN2 = EEPROM.read(67); //Posicao 67 da EEPROM
-byte variavelDN3 = EEPROM.read(68); //Posicao 68 da EEPROM
-byte variavelDN4 = EEPROM.read(69); //Posicao 69 da EEPROM
+//BMBS DNS from EEPROM
+byte variavelDN1 = EEPROM.read(66);
+byte variavelDN2 = EEPROM.read(67);
+byte variavelDN3 = EEPROM.read(68);
+byte variavelDN4 = EEPROM.read(69);
 
 // IP config defaults
 byte mac[] = {
@@ -97,7 +97,7 @@ EthernetServer server(80); //web server port
 
 String HttpHeader = String(MaxHeaderLength);
 
-//BMB declare HTTP string variables from form
+//BMBS declare HTTP string variables from form
 String HttpHeaderCFG;
 
 String HttpHeaderIP1;
@@ -120,7 +120,7 @@ String HttpHeaderDN2;
 String HttpHeaderDN3;
 String HttpHeaderDN4;
 
-//BMB declare HTTP byte variables to write in EEPROM
+//BMBS declare HTTP byte variables to write in EEPROM
 byte HttpHeaderCFGbyte;
 
 byte HttpHeaderIP1byte;
@@ -143,7 +143,7 @@ byte HttpHeaderDN2byte;
 byte HttpHeaderDN3byte;
 byte HttpHeaderDN4byte;
 
-//BMB function HTTP GET byte from form
+//BMBS function HTTP GET byte from form
 byte HttpHeaderValue(String fieldA, String fieldB)
 {
   String HttpHeaderVAL;
@@ -155,7 +155,7 @@ byte HttpHeaderValue(String fieldA, String fieldB)
   return HttpHeaderVALbyte;
 };
 
-//BMB repeating HTML codes 
+//BMBS repeating HTML codes 
 String divRow = "<div class='form-row my-2'><div class='col-md-3 col-xs-12 text-nowrap'>";
 String divClassInput0 = "<div class='col-2'><input class='form-control form-control-sm' type='number' size='3' max='255' name='";
 String divClassInput1 = "' value='";
@@ -163,9 +163,9 @@ String divClassInput2 = "'></div>.";
 
 void setup()
 {
-  variavelCFG = EEPROMReadStr(variavelCFGpos);
+  variavelCFG = eepromReadStr(variavelCFGpos);
 
-  //BMB check previous BMBIPCONFIG
+  //BMBS check previous BMBIPCONFIG
   if (variavelCFG == "BMB_ipconf")
   {
     for (int i = 0; i < 4; i++)
@@ -185,12 +185,15 @@ void setup()
       dns[i] = EEPROM.read(i + 66);
     }
   } else {
-    EEPROMWriteStr(variavelCFGpos, "BMB_ipconf");
+    eepromWriteStr(variavelCFGpos, "BMB_ipconf");
   }
   
   ;
   //start Ethernet
   Ethernet.begin(mac, ip, dns, gateway, subnet);
+
+  //enable serial monitor
+  Serial.begin(9600);
 
   //initialize variable
   HttpHeader = "";
@@ -244,30 +247,44 @@ void loop()
           HttpHeaderDN3byte = HttpHeaderValue("D4=", "D3=");
           HttpHeaderDN4byte = HttpHeaderValue("HTT", "D4=");
 
-          // start of web page
+          Serial.print("Length: ");
+          Serial.println(HttpHeader.length());
+          Serial.print("HttpHeader: ");
+          Serial.println(HttpHeader);
+          Serial.print("HttpHeader[0]: ");
+          Serial.println(HttpHeader[0]);
+          Serial.print("HttpHeader[1]: ");
+          Serial.println(HttpHeader[1]);
+          Serial.print("HttpHeader[2]: ");
+          Serial.println(HttpHeader[2]);
+          Serial.print("HttpHeader[3]: ");
+          Serial.println(HttpHeader[3]);
+          Serial.print("HttpHeader[4]: ");
+          Serial.println(HttpHeader[4]);
+          Serial.print("HttpHeader[5]: ");
+          Serial.println(HttpHeader[5]);
+
+          //BMBS web page's header
           client.println("HTTP/1.1 200 OK");
           client.println("Content-Type: text/html");
           client.println();
           client.println("<!DOCTYPE HTML>");
           client.println("<html lang='en'>");
           client.println("<head>");
-          client.println("<title>IP Config</title>");
           client.println("<meta charset='utf-8'>");
+          client.println("<meta name='author' content='Bruno Sá - www.bruno-sa.com'>");
           client.println("<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>");
           client.println("<link href='https://fonts.googleapis.com/css?family=Didact Gothic' rel='stylesheet'>");
           client.println("<!-- Bootstrap CSS -->");
           client.println("<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css' integrity='sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z' crossorigin='anonymous'>");
           client.println("<!-- jQuery UI CSS -->");
           client.println("<link rel='stylesheet' href='https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css'>");
-          client.println("<!-- jQuery first, then Popper.js, then Bootstrap JS -->");
-          client.println("<script src='https://code.jquery.com/jquery-3.5.1.js' integrity='sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=' crossorigin='anonymous'></script>");
-          client.println("<!-- Optional JavaScript -->");
-          client.println("<script src='https://code.jquery.com/ui/1.12.1/jquery-ui.js' integrity='sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=' crossorigin='anonymous'></script>");
-          client.println("<script src='https://cdn.jsdelivr.net/npm/jquery-ui-touch-punch@0.2.3/jquery.ui.touch-punch.js' integrity='sha256-S9605h/+fTHx8kE89v4NQWuTGCEQJF0B9UGvMFYAiO8=' crossorigin='anonymous'></script>");
-          client.println("<script src='https://unpkg.com/@popperjs/core@2'></script>");
-          client.println("<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js' integrity='sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV' crossorigin='anonymous'></script>");
+
+          //BMBS internal page: /ipcfg
+          if (HttpHeader[5] == 105 && HttpHeader[6] == 112 && HttpHeader[7] == 99 && HttpHeader[8] == 102 && HttpHeader[9] == 103){
+          client.println("<title>IP Config</title>");
           client.println("</head>");
-          client.println("<body style='font-family:Didact Gothic;'><div class='container'><h2><strong>IP Config Page</strong></h2>");
+          client.println("<body style='font-family:Didact Gothic; color:#FFF; background-color:#333;'><div class='container'><h2><strong>IP Config Page</strong></h2>");
           client.println("<form><input type='hidden' name='CF' value='BMB_ipconf'>");
           client.print(divRow);
           client.print("IP Address: </div>");
@@ -358,10 +375,27 @@ void loop()
           client.print(dns[3]);
           client.println("'></div></div>");
           client.println("<div class='form-row my-2'><input class='btn btn-warning btn-sm' type='submit' value='submit'></div></form>");
-          client.println("</div></body>");
-          client.println("</html>");
+          }
 
-          //BMB checking previous IP config to overwrite
+          //BMBS default internal page: /
+          else {
+            client.println("<title>Home</title>");
+            client.println("</head>");
+            client.println("<body style='font-family:Didact Gothic; color:#FFF; background-color:#333;'><div class='container'><h2><strong>Home Page</strong></h2>");
+          }
+          //BMBS web page's footer
+          client.println("<div class='row justify-content-center'><div><a href='/'>home</a> | <a href='/ipcfg'>IP config</a></div></div>");
+          client.println("</div>");
+          client.println("<!-- Optional JavaScript -->");
+          client.println("<!-- jQuery first, then Popper.js, then Bootstrap JS -->");
+          client.println("<script src='https://code.jquery.com/jquery-3.5.1.js' integrity='sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=' crossorigin='anonymous'></script>");
+          client.println("<script src='https://code.jquery.com/ui/1.12.1/jquery-ui.js' integrity='sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=' crossorigin='anonymous'></script>");
+          client.println("<script src='https://cdn.jsdelivr.net/npm/jquery-ui-touch-punch@0.2.3/jquery.ui.touch-punch.js' integrity='sha256-S9605h/+fTHx8kE89v4NQWuTGCEQJF0B9UGvMFYAiO8=' crossorigin='anonymous'></script>");
+          client.println("<script src='https://unpkg.com/@popperjs/core@2'></script>");
+          client.println("<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js' integrity='sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV' crossorigin='anonymous'></script>");
+          client.println("</body></html>");
+
+          //BMBS checking previous IP config to overwrite
           if (HttpHeaderCFG[0] == 66 && HttpHeaderCFG[1] == 77 && HttpHeaderCFG[2] == 66 && HttpHeaderCFG[3] == 95 && HttpHeaderCFG[4] == 105 && HttpHeaderCFG[5] == 112 && HttpHeaderCFG[6] == 99 && HttpHeaderCFG[7] == 111 && HttpHeaderCFG[8] == 110 && HttpHeaderCFG[9] == 102)
           {
             EEPROM.write(51, HttpHeaderIP1byte);
