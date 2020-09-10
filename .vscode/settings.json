@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.html": "php",
+        "type_traits": "cpp"
+    }
+}
