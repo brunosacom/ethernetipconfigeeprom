@@ -6,9 +6,13 @@
 
 #define MaxHeaderLength 255 //maximum length of http header required
 
-#define espacoEEPROM 4096 //1024 bytes (1Kb) on the ATmega328P,
-                          //512 bytes on the ATmega168 and ATmega8,
-                          //4096 bytes (4 Kb) on the ATmega1280 and ATmega2560
+// EEPROM size
+#define espacoEEPROM 4096
+/*
+1024 bytes (1Kb) on the ATmega328P,
+512 bytes on the ATmega168 and ATmega8,
+4096 bytes (4 Kb) on the ATmega1280 and ATmega2560
+*/
 
 //reset function
 void (*resetFunc)(void) = 0; //declare reset function at address 0
@@ -51,9 +55,6 @@ String eepromReadStr(int eepromBlock)
   return readStr;
 }
 
-
-
-
 //BMBS IPconfig presence variables
 int variavelCFGpos = 1;
 String variavelCFG = "";
@@ -93,6 +94,7 @@ byte gateway[] = {
     192, 168, 0, 1}; // gateway address
 byte dns[] = {
     192, 168, 0, 1}; // dns address
+
 EthernetServer server(80); //web server port
 
 String HttpHeader = String(MaxHeaderLength);
@@ -155,7 +157,7 @@ byte HttpHeaderValue(String fieldA, String fieldB)
   return HttpHeaderVALbyte;
 };
 
-//BMBS repeating HTML codes 
+//BMBS repeating HTML codes
 String divRow = "<div class='form-row my-2'><div class='col-md-3 col-xs-12 text-nowrap'>";
 String divClassInput0 = "<div class='col-2'><input class='form-control form-control-sm' type='number' size='3' max='255' name='";
 String divClassInput1 = "' value='";
@@ -184,10 +186,12 @@ void setup()
     {
       dns[i] = EEPROM.read(i + 66);
     }
-  } else {
+  }
+  else
+  {
     eepromWriteStr(variavelCFGpos, "BMB_ipconf");
   }
-  
+
   ;
   //start Ethernet
   Ethernet.begin(mac, ip, dns, gateway, subnet);
@@ -281,104 +285,106 @@ void loop()
           client.println("<link rel='stylesheet' href='https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css'>");
 
           //BMBS internal page: /ipcfg
-          if (HttpHeader[5] == 105 && HttpHeader[6] == 112 && HttpHeader[7] == 99 && HttpHeader[8] == 102 && HttpHeader[9] == 103){
-          client.println("<title>IP Config</title>");
-          client.println("</head>");
-          client.println("<body style='font-family:Didact Gothic; color:#FFF; background-color:#333;'><div class='container'><h2><strong>IP Config Page</strong></h2>");
-          client.println("<form><input type='hidden' name='CF' value='BMB_ipconf'>");
-          client.print(divRow);
-          client.print("IP Address: </div>");
-          client.print(divClassInput0);
-          client.print("I1");
-          client.print(divClassInput1);
-          client.print(ip[0]);
-          client.print(divClassInput2);
-          client.print(divClassInput0);
-          client.print("I2");
-          client.print(divClassInput1);
-          client.print(ip[1]);
-          client.print(divClassInput2);
-          client.print(divClassInput0);
-          client.print("I3");
-          client.print(divClassInput1);
-          client.print(ip[2]);
-          client.print(divClassInput2);
-          client.print(divClassInput0);
-          client.print("I4");
-          client.print(divClassInput1);
-          client.print(ip[3]);
-          client.println("'></div></div>");
-          client.print(divRow);
-          client.print("Subnet Mask: </div>");
-          client.print(divClassInput0);
-          client.print("S1");
-          client.print(divClassInput1);
-          client.print(subnet[0]);
-          client.print(divClassInput2);
-          client.print(divClassInput0);
-          client.print("S2");
-          client.print(divClassInput1);
-          client.print(subnet[1]);
-          client.print(divClassInput2);
-          client.print(divClassInput0);
-          client.print("S3");
-          client.print(divClassInput1);
-          client.print(subnet[2]);
-          client.print(divClassInput2);
-          client.print(divClassInput0);
-          client.print("S4");
-          client.print(divClassInput1);
-          client.print(subnet[3]);
-          client.println("'></div></div>");
-          client.print(divRow);
-          client.print("Gateway: </div>");
-          client.print(divClassInput0);
-          client.print("G1");
-          client.print(divClassInput1);
-          client.print(gateway[0]);
-          client.print(divClassInput2);
-          client.print(divClassInput0);
-          client.print("G2");
-          client.print(divClassInput1);
-          client.print(gateway[1]);
-          client.print(divClassInput2);
-          client.print(divClassInput0);
-          client.print("G3");
-          client.print(divClassInput1);
-          client.print(gateway[2]);
-          client.print(divClassInput2);
-          client.print(divClassInput0);
-          client.print("G4");
-          client.print(divClassInput1);
-          client.print(gateway[3]);
-          client.println("'></div></div>");
-          client.print(divRow);
-          client.print("DNS: </div>");
-          client.print(divClassInput0);
-          client.print("D1");
-          client.print(divClassInput1);
-          client.print(dns[0]);
-          client.print(divClassInput2);
-          client.print(divClassInput0);
-          client.print("D2");
-          client.print(divClassInput1);
-          client.print(dns[1]);
-          client.print(divClassInput2);
-          client.print(divClassInput0);
-          client.print("D3");
-          client.print(divClassInput1);
-          client.print(dns[2]);
-          client.print(divClassInput2);
-          client.print(divClassInput0);
-          client.print("D4");
-          client.print(divClassInput1);
-          client.print(dns[3]);
-          client.println("'></div></div>");
-          client.println("<div class='form-row my-2'><input class='btn btn-warning btn-sm' type='submit' value='submit'></div></form>");
+          if (HttpHeader[5] == 105 && HttpHeader[6] == 112 && HttpHeader[7] == 99 && HttpHeader[8] == 102 && HttpHeader[9] == 103)
+          {
+            client.println("<title>IP Config</title>");
+            client.println("</head>");
+            client.println("<body style='font-family:Didact Gothic; color:#FFF; background-color:#333;'><div class='container'><h2><strong>IP Config Page</strong></h2>");
+            client.println("<form><input type='hidden' name='CF' value='BMB_ipconf'>");
+            client.print(divRow);
+            client.print("IP Address: </div>");
+            client.print(divClassInput0);
+            client.print("I1");
+            client.print(divClassInput1);
+            client.print(ip[0]);
+            client.print(divClassInput2);
+            client.print(divClassInput0);
+            client.print("I2");
+            client.print(divClassInput1);
+            client.print(ip[1]);
+            client.print(divClassInput2);
+            client.print(divClassInput0);
+            client.print("I3");
+            client.print(divClassInput1);
+            client.print(ip[2]);
+            client.print(divClassInput2);
+            client.print(divClassInput0);
+            client.print("I4");
+            client.print(divClassInput1);
+            client.print(ip[3]);
+            client.println("'></div></div>");
+            client.print(divRow);
+            client.print("Subnet Mask: </div>");
+            client.print(divClassInput0);
+            client.print("S1");
+            client.print(divClassInput1);
+            client.print(subnet[0]);
+            client.print(divClassInput2);
+            client.print(divClassInput0);
+            client.print("S2");
+            client.print(divClassInput1);
+            client.print(subnet[1]);
+            client.print(divClassInput2);
+            client.print(divClassInput0);
+            client.print("S3");
+            client.print(divClassInput1);
+            client.print(subnet[2]);
+            client.print(divClassInput2);
+            client.print(divClassInput0);
+            client.print("S4");
+            client.print(divClassInput1);
+            client.print(subnet[3]);
+            client.println("'></div></div>");
+            client.print(divRow);
+            client.print("Gateway: </div>");
+            client.print(divClassInput0);
+            client.print("G1");
+            client.print(divClassInput1);
+            client.print(gateway[0]);
+            client.print(divClassInput2);
+            client.print(divClassInput0);
+            client.print("G2");
+            client.print(divClassInput1);
+            client.print(gateway[1]);
+            client.print(divClassInput2);
+            client.print(divClassInput0);
+            client.print("G3");
+            client.print(divClassInput1);
+            client.print(gateway[2]);
+            client.print(divClassInput2);
+            client.print(divClassInput0);
+            client.print("G4");
+            client.print(divClassInput1);
+            client.print(gateway[3]);
+            client.println("'></div></div>");
+            client.print(divRow);
+            client.print("DNS: </div>");
+            client.print(divClassInput0);
+            client.print("D1");
+            client.print(divClassInput1);
+            client.print(dns[0]);
+            client.print(divClassInput2);
+            client.print(divClassInput0);
+            client.print("D2");
+            client.print(divClassInput1);
+            client.print(dns[1]);
+            client.print(divClassInput2);
+            client.print(divClassInput0);
+            client.print("D3");
+            client.print(divClassInput1);
+            client.print(dns[2]);
+            client.print(divClassInput2);
+            client.print(divClassInput0);
+            client.print("D4");
+            client.print(divClassInput1);
+            client.print(dns[3]);
+            client.println("'></div></div>");
+            client.println("<div class='form-row my-2'><input class='btn btn-warning btn-sm' type='submit' value='submit'></div></form>");
           }
 
           //BMBS default internal page: /
-          else {
+          else
+          {
             client.println("<title>Home</title>");
             client.println("</head>");
             client.println("<body style='font-family:Didact Gothic; color:#FFF; background-color:#333;'><div class='container'><h2><strong>Home Page</strong></h2>");
