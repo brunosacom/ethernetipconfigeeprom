@@ -196,9 +196,6 @@ void setup()
   //start Ethernet
   Ethernet.begin(mac, ip, dns, gateway, subnet);
 
-  //enable serial monitor
-  Serial.begin(9600);
-
   //initialize variable
   HttpHeader = "";
 }
@@ -251,155 +248,139 @@ void loop()
           HttpHeaderDN3byte = HttpHeaderValue("D4=", "D3=");
           HttpHeaderDN4byte = HttpHeaderValue("HTT", "D4=");
 
-          Serial.print("Length: ");
-          Serial.println(HttpHeader.length());
-          Serial.print("HttpHeader: ");
-          Serial.println(HttpHeader);
-          Serial.print("HttpHeader[0]: ");
-          Serial.println(HttpHeader[0]);
-          Serial.print("HttpHeader[1]: ");
-          Serial.println(HttpHeader[1]);
-          Serial.print("HttpHeader[2]: ");
-          Serial.println(HttpHeader[2]);
-          Serial.print("HttpHeader[3]: ");
-          Serial.println(HttpHeader[3]);
-          Serial.print("HttpHeader[4]: ");
-          Serial.println(HttpHeader[4]);
-          Serial.print("HttpHeader[5]: ");
-          Serial.println(HttpHeader[5]);
-
           //BMBS web page's header
-          client.println("HTTP/1.1 200 OK");
-          client.println("Content-Type: text/html");
+          client.println(F("HTTP/1.1 200 OK"));
+          client.println(F("Content-Type: text/html"));
           client.println();
-          client.println("<!DOCTYPE HTML>");
-          client.println("<html lang='en'>");
-          client.println("<head>");
-          client.println("<meta charset='utf-8'>");
-          client.println("<meta name='author' content='Bruno Sá - www.bruno-sa.com'>");
-          client.println("<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>");
-          client.println("<link href='https://fonts.googleapis.com/css?family=Didact Gothic' rel='stylesheet'>");
-          client.println("<!-- Bootstrap CSS -->");
-          client.println("<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css' integrity='sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z' crossorigin='anonymous'>");
-          client.println("<!-- jQuery UI CSS -->");
-          client.println("<link rel='stylesheet' href='https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css'>");
+          client.println(F("<!DOCTYPE HTML>"));
+          client.println(F("<html lang='en'>"));
+          client.println(F("<head>"));
+          client.println(F("<meta charset='utf-8'>"));
+          client.println(F("<meta name='author' content='Bruno Sá - www.bruno-sa.com'>"));
+          client.println(F("<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>"));
+          client.println(F("<link href='https://fonts.googleapis.com/css?family=Didact Gothic' rel='stylesheet'>"));
+          client.println(F("<!-- Bootstrap CSS -->"));
+          client.println(F("<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css' integrity='sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z' crossorigin='anonymous'>"));
+          client.println(F("<!-- jQuery UI CSS -->"));
+          client.println(F("<link rel='stylesheet' href='https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css'>"));
 
           //BMBS internal page: /ipcfg
+          //character conversion in https://www.arduino.cc/en/Reference/ASCIIchart
           if (HttpHeader[5] == 105 && HttpHeader[6] == 112 && HttpHeader[7] == 99 && HttpHeader[8] == 102 && HttpHeader[9] == 103)
           {
-            client.println("<title>IP Config</title>");
-            client.println("</head>");
-            client.println("<body style='font-family:Didact Gothic; color:#FFF; background-color:#333;'><div class='container'><h2><strong>IP Config Page</strong></h2>");
-            client.println("<form><input type='hidden' name='CF' value='BMB_ipconf'>");
+            client.println(F("<title>IP Config</title>"));
+            client.println(F("</head>"));
+            client.println(F("<body style='font-family:Didact Gothic; color:#FFF; background-color:#333;'><div class='container'><h2><strong>IP Config Page</strong></h2>"));
+            client.println(F("<form><input type='hidden' name='CF' value='BMB_ipconf'>"));
             client.print(divRow);
-            client.print("IP Address: </div>");
+            client.print(F("IP Address: </div>"));
             client.print(divClassInput0);
-            client.print("I1");
+            client.print(F("I1"));
             client.print(divClassInput1);
             client.print(ip[0]);
             client.print(divClassInput2);
             client.print(divClassInput0);
-            client.print("I2");
+            client.print(F("I2"));
             client.print(divClassInput1);
             client.print(ip[1]);
             client.print(divClassInput2);
             client.print(divClassInput0);
-            client.print("I3");
+            client.print(F("I3"));
             client.print(divClassInput1);
             client.print(ip[2]);
             client.print(divClassInput2);
             client.print(divClassInput0);
-            client.print("I4");
+            client.print(F("I4"));
             client.print(divClassInput1);
             client.print(ip[3]);
-            client.println("'></div></div>");
+            client.println(F("'></div></div>"));
             client.print(divRow);
-            client.print("Subnet Mask: </div>");
+            client.print(F("Subnet Mask: </div>"));
             client.print(divClassInput0);
-            client.print("S1");
+            client.print(F("S1"));
             client.print(divClassInput1);
             client.print(subnet[0]);
             client.print(divClassInput2);
             client.print(divClassInput0);
-            client.print("S2");
+            client.print(F("S2"));
             client.print(divClassInput1);
             client.print(subnet[1]);
             client.print(divClassInput2);
             client.print(divClassInput0);
-            client.print("S3");
+            client.print(F("S3"));
             client.print(divClassInput1);
             client.print(subnet[2]);
             client.print(divClassInput2);
             client.print(divClassInput0);
-            client.print("S4");
+            client.print(F("S4"));
             client.print(divClassInput1);
             client.print(subnet[3]);
-            client.println("'></div></div>");
+            client.println(F("'></div></div>"));
             client.print(divRow);
-            client.print("Gateway: </div>");
+            client.print(F("Gateway: </div>"));
             client.print(divClassInput0);
-            client.print("G1");
+            client.print(F("G1"));
             client.print(divClassInput1);
             client.print(gateway[0]);
             client.print(divClassInput2);
             client.print(divClassInput0);
-            client.print("G2");
+            client.print(F("G2"));
             client.print(divClassInput1);
             client.print(gateway[1]);
             client.print(divClassInput2);
             client.print(divClassInput0);
-            client.print("G3");
+            client.print(F("G3"));
             client.print(divClassInput1);
             client.print(gateway[2]);
             client.print(divClassInput2);
             client.print(divClassInput0);
-            client.print("G4");
+            client.print(F("G4"));
             client.print(divClassInput1);
             client.print(gateway[3]);
-            client.println("'></div></div>");
+            client.println(F("'></div></div>"));
             client.print(divRow);
-            client.print("DNS: </div>");
+            client.print(F("DNS: </div>"));
             client.print(divClassInput0);
-            client.print("D1");
+            client.print(F("D1"));
             client.print(divClassInput1);
             client.print(dns[0]);
             client.print(divClassInput2);
             client.print(divClassInput0);
-            client.print("D2");
+            client.print(F("D2"));
             client.print(divClassInput1);
             client.print(dns[1]);
             client.print(divClassInput2);
             client.print(divClassInput0);
-            client.print("D3");
+            client.print(F("D3"));
             client.print(divClassInput1);
             client.print(dns[2]);
             client.print(divClassInput2);
             client.print(divClassInput0);
-            client.print("D4");
+            client.print(F("D4"));
             client.print(divClassInput1);
             client.print(dns[3]);
-            client.println("'></div></div>");
-            client.println("<div class='form-row my-2'><input class='btn btn-warning btn-sm' type='submit' value='submit'></div></form>");
+            client.println(F("'></div></div>"));
+            client.println(F("<div class='form-row my-2'><input class='btn btn-warning btn-sm' type='submit' value='submit'></div></form>"));
           }
 
           //BMBS default internal page: /
           else
           {
-            client.println("<title>Home</title>");
-            client.println("</head>");
-            client.println("<body style='font-family:Didact Gothic; color:#FFF; background-color:#333;'><div class='container'><h2><strong>Home Page</strong></h2>");
+            client.println(F("<title>Home</title>"));
+            client.println(F("</head>"));
+            client.println(F("<body style='font-family:Didact Gothic; color:#FFF; background-color:#333;'><div class='container'><h2><strong>Home Page</strong></h2>"));
           }
           //BMBS web page's footer
-          client.println("<div class='row justify-content-center'><div><a href='/'>home</a> | <a href='/ipcfg'>IP config</a></div></div>");
-          client.println("</div>");
-          client.println("<!-- Optional JavaScript -->");
-          client.println("<!-- jQuery first, then Popper.js, then Bootstrap JS -->");
-          client.println("<script src='https://code.jquery.com/jquery-3.5.1.js' integrity='sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=' crossorigin='anonymous'></script>");
-          client.println("<script src='https://code.jquery.com/ui/1.12.1/jquery-ui.js' integrity='sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=' crossorigin='anonymous'></script>");
-          client.println("<script src='https://cdn.jsdelivr.net/npm/jquery-ui-touch-punch@0.2.3/jquery.ui.touch-punch.js' integrity='sha256-S9605h/+fTHx8kE89v4NQWuTGCEQJF0B9UGvMFYAiO8=' crossorigin='anonymous'></script>");
-          client.println("<script src='https://unpkg.com/@popperjs/core@2'></script>");
-          client.println("<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js' integrity='sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV' crossorigin='anonymous'></script>");
-          client.println("</body></html>");
+          client.println(F("<div class='row justify-content-center'><div><a href='/'>home</a> | <a href='/ipcfg'>IP config</a></div></div>"));
+          client.println(F("</div>"));
+          client.println(F("<!-- Optional JavaScript -->"));
+          client.println(F("<!-- jQuery first, then Popper.js, then Bootstrap JS -->"));
+          client.println(F("<script src='https://code.jquery.com/jquery-3.5.1.js' integrity='sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=' crossorigin='anonymous'></script>"));
+          client.println(F("<script src='https://code.jquery.com/ui/1.12.1/jquery-ui.js' integrity='sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=' crossorigin='anonymous'></script>"));
+          client.println(F("<script src='https://cdn.jsdelivr.net/npm/jquery-ui-touch-punch@0.2.3/jquery.ui.touch-punch.js' integrity='sha256-S9605h/+fTHx8kE89v4NQWuTGCEQJF0B9UGvMFYAiO8=' crossorigin='anonymous'></script>"));
+          client.println(F("<script src='https://unpkg.com/@popperjs/core@2'></script>"));
+          client.println(F("<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js' integrity='sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV' crossorigin='anonymous'></script>"));
+          client.println(F("</body></html>"));
 
           //BMBS checking previous IP config to overwrite
           if (HttpHeaderCFG[0] == 66 && HttpHeaderCFG[1] == 77 && HttpHeaderCFG[2] == 66 && HttpHeaderCFG[3] == 95 && HttpHeaderCFG[4] == 105 && HttpHeaderCFG[5] == 112 && HttpHeaderCFG[6] == 99 && HttpHeaderCFG[7] == 111 && HttpHeaderCFG[8] == 110 && HttpHeaderCFG[9] == 102)
