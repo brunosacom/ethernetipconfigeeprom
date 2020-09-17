@@ -146,13 +146,13 @@ byte HttpHeaderDN3byte;
 byte HttpHeaderDN4byte;
 
 //BMBS function HTTP GET byte from form
-byte HttpHeaderValue(String fieldA, String fieldB)
+byte HttpHeaderValue(String fieldA)
 {
   String HttpHeaderVAL;
   byte HttpHeaderVALbyte;
   HttpHeaderVAL = HttpHeader;
-  HttpHeaderVAL.remove(HttpHeader.indexOf(fieldA) - 1, HttpHeader.length() - HttpHeader.indexOf(fieldA));
-  HttpHeaderVAL.remove(0, HttpHeader.indexOf(fieldB) + 3);
+  HttpHeaderVAL.remove(0, HttpHeaderVAL.indexOf(fieldA) + fieldA.length());
+  HttpHeaderVAL.remove(HttpHeaderVAL.indexOf("&"), HttpHeaderVAL.length() - HttpHeaderVAL.indexOf("&") + 1);
   HttpHeaderVALbyte = HttpHeaderVAL.toInt();
   return HttpHeaderVALbyte;
 };
@@ -228,25 +228,25 @@ void loop()
           HttpHeaderCFG.remove(0, HttpHeader.indexOf("CF=") + 3);
           HttpHeaderCFGbyte = HttpHeaderCFG[0];
 
-          HttpHeaderIP1byte = HttpHeaderValue("I2=", "I1=");
-          HttpHeaderIP2byte = HttpHeaderValue("I3=", "I2=");
-          HttpHeaderIP3byte = HttpHeaderValue("I4=", "I3=");
-          HttpHeaderIP4byte = HttpHeaderValue("S1=", "I4=");
+          HttpHeaderIP1byte = HttpHeaderValue("I1=");
+          HttpHeaderIP2byte = HttpHeaderValue("I2=");
+          HttpHeaderIP3byte = HttpHeaderValue("I3=");
+          HttpHeaderIP4byte = HttpHeaderValue("I4=");
 
-          HttpHeaderSB1byte = HttpHeaderValue("S2=", "S1=");
-          HttpHeaderSB2byte = HttpHeaderValue("S3=", "S2=");
-          HttpHeaderSB3byte = HttpHeaderValue("S4=", "S3=");
-          HttpHeaderSB4byte = HttpHeaderValue("G1=", "S4=");
+          HttpHeaderSB1byte = HttpHeaderValue("S1=");
+          HttpHeaderSB2byte = HttpHeaderValue("S2=");
+          HttpHeaderSB3byte = HttpHeaderValue("S3=");
+          HttpHeaderSB4byte = HttpHeaderValue("S4=");
 
-          HttpHeaderGW1byte = HttpHeaderValue("G2=", "G1=");
-          HttpHeaderGW2byte = HttpHeaderValue("G3=", "G2=");
-          HttpHeaderGW3byte = HttpHeaderValue("G4=", "G3=");
-          HttpHeaderGW4byte = HttpHeaderValue("D1=", "G4=");
+          HttpHeaderGW1byte = HttpHeaderValue("G1=");
+          HttpHeaderGW2byte = HttpHeaderValue("G2=");
+          HttpHeaderGW3byte = HttpHeaderValue("G3=");
+          HttpHeaderGW4byte = HttpHeaderValue("G4=");
 
-          HttpHeaderDN1byte = HttpHeaderValue("D2=", "D1=");
-          HttpHeaderDN2byte = HttpHeaderValue("D3=", "D2=");
-          HttpHeaderDN3byte = HttpHeaderValue("D4=", "D3=");
-          HttpHeaderDN4byte = HttpHeaderValue("HTT", "D4=");
+          HttpHeaderDN1byte = HttpHeaderValue("D1=");
+          HttpHeaderDN2byte = HttpHeaderValue("D2=");
+          HttpHeaderDN3byte = HttpHeaderValue("D3=");
+          HttpHeaderDN4byte = HttpHeaderValue("D4=");
 
           //BMBS web page's header
           client.println(F("HTTP/1.1 200 OK"));
