@@ -17,6 +17,3 @@ O código HTML já tem inseridos:
 Basta eliminar as linhas que não interessarem.
 
 A navegação entre páginas também está prevista.
-
-Observe a licença para uso! Lembre de citar a origem do código e informar aqui seu uso.
-
