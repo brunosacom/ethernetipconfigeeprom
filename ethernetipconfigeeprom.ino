@@ -17,71 +17,8 @@
 //reset function
 void (*resetFunc)(void) = 0; //declare reset function at address 0
 
-// function write string byte after byte in EEPROM
-void eepromWriteStr(int eepromBlock, String text)
-{
-  int i;
-
-  for (i = 0; i < text.length(); i++)
-  {
-    EEPROM.write(eepromBlock + i, text.charAt(i));
-
-    if (i >= 1000)
-    {
-      break;
-    }
-  }
-
-  if (i < 1000)
-  {
-    EEPROM.write(eepromBlock + i, (char)0);
-  }
-}
-
-// function read string byte after byte from EEPROM
-String eepromReadStr(int eepromBlock)
-{
-  String readStr = "";
-  char readByte;
-  int readEepromBlock = eepromBlock;
-
-  do
-  {
-    readByte = EEPROM.read(readEepromBlock);
-    readStr += readByte;
-    readEepromBlock++;
-  } while ((readByte != (char)0) && (readEepromBlock < (eepromBlock + 1000)));
-
-  return readStr;
-}
-
 //BMBS IPconfig presence variables
-int variavelCFGpos = 1;
 String variavelCFG = "";
-
-//BMBS IP Address from EEPROM
-byte variavelIP1 = EEPROM.read(51);
-byte variavelIP2 = EEPROM.read(52);
-byte variavelIP3 = EEPROM.read(53);
-byte variavelIP4 = EEPROM.read(54);
-
-//BMBS Subnet Mask from EEPROM
-byte variavelSB1 = EEPROM.read(56);
-byte variavelSB2 = EEPROM.read(57);
-byte variavelSB3 = EEPROM.read(58);
-byte variavelSB4 = EEPROM.read(59);
-
-//BMBS Gateway from EEPROM
-byte variavelGW1 = EEPROM.read(61);
-byte variavelGW2 = EEPROM.read(62);
-byte variavelGW3 = EEPROM.read(63);
-byte variavelGW4 = EEPROM.read(64);
-
-//BMBS DNS from EEPROM
-byte variavelDN1 = EEPROM.read(66);
-byte variavelDN2 = EEPROM.read(67);
-byte variavelDN3 = EEPROM.read(68);
-byte variavelDN4 = EEPROM.read(69);
 
 // IP config defaults
 byte mac[] = {
@@ -165,7 +102,9 @@ String divClassInput2 = "'></div>.";
 
 void setup()
 {
-  variavelCFG = eepromReadStr(variavelCFGpos);
+  //variavelCFG = eepromReadStr(variavelCFGpos);
+  variavelCFG = ((String)char(EEPROM.read(1)) + char(EEPROM.read(2)) + char(EEPROM.read(3)) + char(EEPROM.read(4)) + char(EEPROM.read(5)) + char(EEPROM.read(6)) + char(EEPROM.read(7)) + char(EEPROM.read(8)) + char(EEPROM.read(9)) + char(EEPROM.read(10))); 
+
 
   //BMBS check previous BMBIPCONFIG
   if (variavelCFG == "BMB_ipconf")
@@ -186,13 +125,8 @@ void setup()
     {
       dns[i] = EEPROM.read(i + 66);
     }
-  }
-  else
-  {
-    eepromWriteStr(variavelCFGpos, "BMB_ipconf");
-  }
+  };
 
-  ;
   //start Ethernet
   Ethernet.begin(mac, ip, dns, gateway, subnet);
 
@@ -385,6 +319,17 @@ void loop()
           //BMBS checking previous IP config to overwrite
           if (HttpHeaderCFG[0] == 66 && HttpHeaderCFG[1] == 77 && HttpHeaderCFG[2] == 66 && HttpHeaderCFG[3] == 95 && HttpHeaderCFG[4] == 105 && HttpHeaderCFG[5] == 112 && HttpHeaderCFG[6] == 99 && HttpHeaderCFG[7] == 111 && HttpHeaderCFG[8] == 110 && HttpHeaderCFG[9] == 102)
           {
+            EEPROM.write(1, 66);
+            EEPROM.write(2, 77);
+            EEPROM.write(3, 66);
+            EEPROM.write(4, 95);
+            EEPROM.write(5, 105);
+            EEPROM.write(6, 112);
+            EEPROM.write(7, 99);
+            EEPROM.write(8, 111);
+            EEPROM.write(9, 110);
+            EEPROM.write(10, 102);
+            
             EEPROM.write(51, HttpHeaderIP1byte);
             EEPROM.write(52, HttpHeaderIP2byte);
             EEPROM.write(53, HttpHeaderIP3byte);
