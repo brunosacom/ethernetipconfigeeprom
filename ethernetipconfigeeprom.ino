@@ -102,7 +102,6 @@ String divClassInput2 = "'></div>.";
 
 void setup()
 {
-  //variavelCFG = eepromReadStr(variavelCFGpos);
   variavelCFG = ((String)char(EEPROM.read(1)) + char(EEPROM.read(2)) + char(EEPROM.read(3)) + char(EEPROM.read(4)) + char(EEPROM.read(5)) + char(EEPROM.read(6)) + char(EEPROM.read(7)) + char(EEPROM.read(8)) + char(EEPROM.read(9)) + char(EEPROM.read(10))); 
 
 
