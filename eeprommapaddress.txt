@@ -12,7 +12,6 @@ address     content
 9           initial String "n" (byte = 110)
 10          initial String "f" (byte = 102)
 
-50          webpage refresh (byte = 89[yes] or 78[no])
 51          IP address block 1 (byte = 0 to 255)
 52          IP address block 2 (byte = 0 to 255)
 53          IP address block 3 (byte = 0 to 255)
