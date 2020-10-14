@@ -184,7 +184,7 @@ void loop()
           //BMBS web page's header
           client.println(F("HTTP/1.1 200 OK"));
           client.println(F("Content-Type: text/html"));
-          client.println();
+          client.println(F(""));
           client.println(F("<!DOCTYPE HTML>"));
           client.println(F("<html lang='en'>"));
           client.println(F("<head>"));
@@ -197,14 +197,23 @@ void loop()
           client.println(F("<!-- jQuery UI CSS -->"));
           client.println(F("<link rel='stylesheet' href='https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css'>"));
 
+          //BMBS internal page: /fsend
+          //character conversion in https://www.arduino.cc/en/Reference/ASCIIchart
+          if (HttpHeader[5] == 102 && HttpHeader[6] == 115 && HttpHeader[7] == 101 && HttpHeader[8] == 110 && HttpHeader[9] == 100)
+          {
+            client.println(F("<title>Form Sended</title>"));
+            client.println(F("</head><body style='font-family:Didact Gothic; color:#FFF; background-color:#333;'><div class='container'><h2><strong>Form Sended</strong></h2>"));
+            client.println(F("<h3><a href='/' class='row justify-content-center'><button class='btn btn-warning'>reload</button></a></h3><br><br>"));
+          }
+
           //BMBS internal page: /ipcfg
           //character conversion in https://www.arduino.cc/en/Reference/ASCIIchart
-          if (HttpHeader[5] == 105 && HttpHeader[6] == 112 && HttpHeader[7] == 99 && HttpHeader[8] == 102 && HttpHeader[9] == 103)
+          else if (HttpHeader[5] == 105 && HttpHeader[6] == 112 && HttpHeader[7] == 99 && HttpHeader[8] == 102 && HttpHeader[9] == 103)
           {
             client.println(F("<title>IP Config</title>"));
             client.println(F("</head>"));
             client.println(F("<body style='font-family:Didact Gothic; color:#FFF; background-color:#333;'><div class='container'><h2><strong>IP Config Page</strong></h2>"));
-            client.println(F("<form><input type='hidden' name='CF' value='BMB_ipconf'>"));
+            client.println(F("<form action='/fsend'><input type='hidden' name='CF' value='BMB_ipconf'>"));
             client.print(divRow);
             client.print(F("IP Address: </div>"));
             client.print(divClassInput0);
@@ -302,9 +311,28 @@ void loop()
             client.println(F("<title>Home</title>"));
             client.println(F("</head>"));
             client.println(F("<body style='font-family:Didact Gothic; color:#FFF; background-color:#333;'><div class='container'><h2><strong>Home Page</strong></h2>"));
+            client.println(F("<div class='row my-2'>"));
+            client.println(F("<div class='col-3 bg-secondary'>Network</div>"));
+            client.println(F("<div class='col'></div>"));
+            client.println(F("</div>"));
+            client.println(F("<div class='row my-2'>"));
+            client.println((String)"<div class='col-3'>IP: " + ip[0] + "." + ip[1] + "." +  ip[2] + "." +  ip[3] + "</div>");
+            client.println(F("<div class='col'></div>"));
+            client.println(F("</div>"));
+            client.println(F("<div class='row my-2'>"));
+            client.println((String)"<div class='col-3'>Subnet Mask: " + subnet[0] + "." +  subnet[1] + "." +  subnet[2] + "." +  subnet[3] + "</div>");
+            client.println(F("<div class='col'></div>"));
+            client.println(F("</div>"));
+            client.println(F("<div class='row my-2'>"));
+            client.println((String)"<div class='col-3'>Gateway: " + gateway[0] + "." +  gateway[1] + "." +  gateway[2] + "." +  gateway[3] + "</div>");
+            client.println(F("</div>"));
+            client.println(F("<div class='row my-2'>"));
+            client.println((String)"<div class='col-3'>DNS: " + dns[0] + "." +  dns[1] + "." +  dns[2] + "." +  dns[3] + "</div>");
+            client.println(F("</div>"));
           }
           //BMBS web page's footer
           client.println(F("<div class='row justify-content-center'><div><a href='/'>home</a> | <a href='/ipcfg'>IP config</a></div></div>"));
+          client.println(F("<div class='row justify-content-center'><div><small><small>Created by Bruno Sá - <a href='https://www.bruno-sa.com' target='_blank'>www.bruno-sa.com</a></small></small></div></div>"));
           client.println(F("</div>"));
           client.println(F("<!-- Optional JavaScript -->"));
           client.println(F("<!-- jQuery first, then Popper.js, then Bootstrap JS -->"));
