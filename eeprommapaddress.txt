@@ -12,14 +12,6 @@ address     content
 9           initial String "n" (byte = 110)
 10          initial String "f" (byte = 102)
 
-21          NTP Server IP block 1 (byte = 0 to 255)
-22          NTP Server IP block 2 (byte = 0 to 255)
-23          NTP Server IP block 3 (byte = 0 to 255)
-24          NTP Server IP block 4 (byte = 0 to 255)
-
-26          TimeZone + or - (byte = 43 or 45)
-27          TimeZone number (byte 0 to 12)
-
 50          webpage refresh (byte = 89[yes] or 78[no])
 51          IP address block 1 (byte = 0 to 255)
 52          IP address block 2 (byte = 0 to 255)
