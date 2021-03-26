@@ -7,7 +7,7 @@ Este sketch exibe uma página WEB para configuração dos dados de IP, subnet ma
 Esses dados são gravados na EEPROM do Arduino e assim mesmo ao desligar, as configurações irão permanecer.
 
 O código HTML já tem inseridos:
- - BootStrap 4.5.2
+ - BootStrap 5.0.0beta3
  - JQuery 3.6.0
  - Popper 2.0
  - JqueryUI 1.12.1

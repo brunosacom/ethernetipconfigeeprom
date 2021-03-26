@@ -95,10 +95,10 @@ byte HttpHeaderValue(String fieldA)
 };
 
 //BMBS repeating HTML codes
-String divRow = "<div class='form-row my-2'><div class='col-md-3 col-xs-12 text-nowrap'>";
-String divClassInput0 = "<div class='col-2'><input class='form-control form-control-sm' type='number' size='3' max='255' name='";
+String divRow = "<div class='input-group mb-2 input-group-sm col-2'><span class='col-3 input-group-text text-nowrap'>";
+String divClassInput0 = "<input class='form-control form-control-sm' type='number' size='3' max='255' name='";
 String divClassInput1 = "' value='";
-String divClassInput2 = "'></div>.";
+String divClassInput2 = "'><span class='input-group-text input-group-sm'>.</span>";
 
 void setup()
 {
@@ -193,7 +193,7 @@ void loop()
           client.println(F("<meta name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no'>"));
           client.println(F("<link href='https://fonts.googleapis.com/css?family=Didact Gothic' rel='stylesheet'>"));
           client.println(F("<!-- Bootstrap CSS -->"));
-          client.println(F("<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css' integrity='sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z' crossorigin='anonymous'>"));
+          client.println(F("<link href='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6' crossorigin='anonymous'>"));
           client.println(F("<!-- jQuery UI CSS -->"));
           client.println(F("<link rel='stylesheet' href='https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css'>"));
 
@@ -215,7 +215,7 @@ void loop()
             client.println(F("<body style='font-family:Didact Gothic; color:#FFF; background-color:#333;'><div class='container'><h2><strong>IP Config Page</strong></h2>"));
             client.println(F("<form action='/fsend'><input type='hidden' name='CF' value='BMB_ipconf'>"));
             client.print(divRow);
-            client.print(F("IP Address: </div>"));
+            client.print(F("IP Address: </span>"));
             client.print(divClassInput0);
             client.print(F("I1"));
             client.print(divClassInput1);
@@ -235,9 +235,9 @@ void loop()
             client.print(F("I4"));
             client.print(divClassInput1);
             client.print(ip[3]);
-            client.println(F("'></div></div>"));
+            client.println(F("'></div>"));
             client.print(divRow);
-            client.print(F("Subnet Mask: </div>"));
+            client.print(F("Subnet Mask: </span>"));
             client.print(divClassInput0);
             client.print(F("S1"));
             client.print(divClassInput1);
@@ -257,9 +257,9 @@ void loop()
             client.print(F("S4"));
             client.print(divClassInput1);
             client.print(subnet[3]);
-            client.println(F("'></div></div>"));
+            client.println(F("'></div>"));
             client.print(divRow);
-            client.print(F("Gateway: </div>"));
+            client.print(F("Gateway: </span>"));
             client.print(divClassInput0);
             client.print(F("G1"));
             client.print(divClassInput1);
@@ -279,9 +279,9 @@ void loop()
             client.print(F("G4"));
             client.print(divClassInput1);
             client.print(gateway[3]);
-            client.println(F("'></div></div>"));
+            client.println(F("'></div>"));
             client.print(divRow);
-            client.print(F("DNS: </div>"));
+            client.print(F("DNS: </span>"));
             client.print(divClassInput0);
             client.print(F("D1"));
             client.print(divClassInput1);
@@ -301,7 +301,7 @@ void loop()
             client.print(F("D4"));
             client.print(divClassInput1);
             client.print(dns[3]);
-            client.println(F("'></div></div>"));
+            client.println(F("'></div>"));
             client.println(F("<div class='form-row my-2'><input class='btn btn-warning btn-sm' type='submit' value='submit'></div></form>"));
           }
 
@@ -331,8 +331,9 @@ void loop()
             client.println(F("</div>"));
           }
           //BMBS web page's footer
-          client.println(F("<div class='row justify-content-center'><div><a href='/'>home</a> | <a href='/ipcfg'>IP config</a></div></div>"));
-          client.println(F("<div class='row justify-content-center'><div><small><small>Created by Bruno Sá - <a href='https://www.bruno-sa.com' target='_blank'>www.bruno-sa.com</a></small></small></div></div>"));
+          client.println(F("<div class='d-flex justify-content-center'><div><a href='/'>home</a> | <a href='/ipcfg'>IP config</a></div></div>"));
+          client.println(F("<hr>"));
+          client.println(F("<div class='d-flex justify-content-center'><div><small><small>Created by Bruno Sá - <a href='https://www.bruno-sa.com' target='_blank'>www.bruno-sa.com</a></small></small></div></div>"));
           client.println(F("</div>"));
           client.println(F("<!-- Optional JavaScript -->"));
           client.println(F("<!-- jQuery first, then Popper.js, then Bootstrap JS -->"));
@@ -340,7 +341,7 @@ void loop()
           client.println(F("<script src='https://code.jquery.com/ui/1.12.1/jquery-ui.js' integrity='sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=' crossorigin='anonymous'></script>"));
           client.println(F("<script src='https://cdn.jsdelivr.net/npm/jquery-ui-touch-punch@0.2.3/jquery.ui.touch-punch.js' integrity='sha256-S9605h/+fTHx8kE89v4NQWuTGCEQJF0B9UGvMFYAiO8=' crossorigin='anonymous'></script>"));
           client.println(F("<script src='https://unpkg.com/@popperjs/core@2'></script>"));
-          client.println(F("<script src='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js' integrity='sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV' crossorigin='anonymous'></script>"));
+          client.println(F("<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.min.js' integrity='sha384-j0CNLUeiqtyaRmlzUHCPZ+Gy5fQu0dQ6eZ/xAww941Ai1SxSY+0EQqNXNE6DZiVc' crossorigin='anonymous'></script>"));
           client.println(F("</body></html>"));
 
           //BMBS checking previous IP config to overwrite
