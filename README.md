@@ -8,8 +8,8 @@ Esses dados são gravados na EEPROM do Arduino e assim mesmo ao desligar, as con
 
 O código HTML já tem inseridos:
  - BootStrap 5.0.0beta3
- - JQuery 3.6.0
  - Popper 2.9.1
+ - JQuery 3.6.0
  - JqueryUI 1.12.1
  - JQueryUI Touch Punch 0.2.3
  - GoogleFonts
