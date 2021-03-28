@@ -95,7 +95,7 @@ byte HttpHeaderValue(String fieldA)
 };
 
 //BMBS repeating HTML codes
-String divRow = "<div class='input-group mb-2 input-group-sm col-2'><span class='col-3 input-group-text text-nowrap'>";
+String divRow = "<div class='col-sm-6'><div class='input-group mb-2 input-group-sm col-2'><span class='col-3 input-group-text text-nowrap'>";
 String divClassInput0 = "<input class='form-control form-control-sm' type='number' max='255' name='";
 String divClassInput1 = "' value='";
 String divClassInput2 = "'><span class='input-group-text input-group-sm'>.</span>";
@@ -235,7 +235,7 @@ void loop()
             client.print(F("I4"));
             client.print(divClassInput1);
             client.print(ip[3]);
-            client.println(F("'></div>"));
+            client.println(F("'></div></div>"));
             client.print(divRow);
             client.print(F("Subnet Mask: </span>"));
             client.print(divClassInput0);
@@ -257,7 +257,7 @@ void loop()
             client.print(F("S4"));
             client.print(divClassInput1);
             client.print(subnet[3]);
-            client.println(F("'></div>"));
+            client.println(F("'></div></div>"));
             client.print(divRow);
             client.print(F("Gateway: </span>"));
             client.print(divClassInput0);
@@ -279,7 +279,7 @@ void loop()
             client.print(F("G4"));
             client.print(divClassInput1);
             client.print(gateway[3]);
-            client.println(F("'></div>"));
+            client.println(F("'></div></div>"));
             client.print(divRow);
             client.print(F("DNS: </span>"));
             client.print(divClassInput0);
@@ -301,7 +301,7 @@ void loop()
             client.print(F("D4"));
             client.print(divClassInput1);
             client.print(dns[3]);
-            client.println(F("'></div>"));
+            client.println(F("'></div></div>"));
             client.println(F("<div class='form-row my-2'><input class='btn btn-warning btn-sm' type='submit' value='submit'></div></form>"));
           }
 
